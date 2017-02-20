@@ -1,5 +1,5 @@
 #include <opencv2/opencv.hpp>
-
+#include <stdio.h>
 #include <iostream>
 using namespace std;
 using namespace cv;
@@ -56,8 +56,12 @@ int main() {
 		}
 
 		// Display
+		namedWindow("img", CV_WINDOW_AUTOSIZE);
+		imshow("img", img);
 		namedWindow("calcHist", CV_WINDOW_AUTOSIZE );
 		imshow("calcHist", histImage );
+
+		waitKey(0);
 
 	}
 	catch (exception &e) {
