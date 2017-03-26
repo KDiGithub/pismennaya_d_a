@@ -12,6 +12,7 @@
 using namespace std;
 using namespace cv;
 
+String save_image_path;
 int percent = 5;
 const int percent_slider_max = 90;
 int track_percent;
@@ -132,14 +133,14 @@ void on_trackbar(int, void*)
 	contrast();
 	cout << percent << endl;
 	imshow("Contrasted image", img2);
-	imwrite("../../../images/pew.jpg", img2);
+	imwrite(save_image_path, img2);
 }
 
 int main(int argc, char *argv[]) {
 
 	cv::String keys =
 		"{path |../../../images/p4hist.jpg | path to file}"
-		//"{save |../../../images/p4hist_new.jpg | path for saving file}"
+		"{save |../../../images/p4hist_new.jpg | path for saving file}"
 		"{percent |5| number }"
 		"{help || show help message}";
 
@@ -150,12 +151,8 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 
-	/*if (parser.has("save")) {
-		String save_image_path = parser.get<String>("save");
-		imwrite(save_image_path, img2);
-	}*/
-
 	String input_image_path = parser.get<String>("path"); 
+	save_image_path = parser.get<String>("save");
 	percent = parser.get<float>("percent");
 	cout << input_image_path << endl;
 	cout << percent << endl;
