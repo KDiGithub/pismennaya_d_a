@@ -2,6 +2,9 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <vector>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 
 using namespace cv;
 using namespace std;
@@ -43,33 +46,36 @@ int main(int argc,char* argv[])
 	kernel2.at<float>(1, 0) = -1;
 	kernel2.at<float>(1, 1) = 0;
 
-	Mat im1, im2;
+	Mat im1, im2, im1_norm, im2_norm;
 
 	filter2D(Image, im1, CV_32F, kernel1);
 	filter2D(Image, im2, CV_32F, kernel2);
 
-	Mat qim1, qim2, qi;
-	pow(im1, 2, qim1);
-	pow(im2, 2, qim2);
+	Mat grad = Mat(300, 400, CV_32F);
+	Mat grad_norm;
+	for(int i = 0; i < Image.rows; i++)
+	{
+		for (int j = 0; j < Image.cols; j++)
+		{
+			grad.at<float>(i,j) = sqrt(im1.at<float>(i, j) * im1.at<float>(i, j) + im2.at<float>(i, j) * im2.at<float>(i, j));
+			saturate_cast<float>(grad.at<float>(i, j));
+		}
+	}
 
-	Mat q = qim1 + qim2;
-	pow(q, 0.5, qi);
-
-	Mat res;
-	Mat channels[3] = { qi,im1,im2 };
+	Mat res = Mat(300, 400, CV_8UC3);
+	Mat res_norm;
+	cvtColor(res, res, CV_BGR2Lab);
+	Mat channels[3] = { grad, im1, im2 };
 	merge(channels, 3, res);
-
-	Mat im1_norm, im2_norm, res_norm;
-
+	
 	normalize(im1, im1_norm, 0, 255, CV_MINMAX, CV_8U);
 	normalize(im2, im2_norm, 0, 255, CV_MINMAX, CV_8U);
-	normalize(res, res_norm, 0, 255, CV_MINMAX, CV_8UC3);
+	normalize(res, res_norm, 0, 255, CV_MINMAX, CV_8U);
 
-	cvtColor(res_norm, res_norm, cv::COLOR_Luv2RGB);
-
-	imshow("image1", im1_norm);
-	imshow("image2", im2_norm);
-	imshow("image4", res_norm);
+	imshow("image1_norm", im1_norm);
+	imshow("image2_norm", im2_norm);
+	imshow("image_res", res);
+	imshow("image_res_norm", res_norm);
 
     waitKey(0);
     return 0;
