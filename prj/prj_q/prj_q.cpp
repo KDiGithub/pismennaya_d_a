@@ -46,16 +46,30 @@ int main(int argc,char* argv[])
 	Mat im1, im2;
 
 	filter2D(Image, im1, CV_32F, kernel1);
-
 	filter2D(Image, im2, CV_32F, kernel2);
 
-	Mat im1_norm, im2_norm;
+	Mat qim1, qim2, qi;
+	pow(im1, 2, qim1);
+	pow(im2, 2, qim2);
+
+	Mat q = qim1 + qim2;
+	pow(q, 0.5, qi);
+
+	Mat res;
+	Mat channels[3] = { qi,im1,im2 };
+	merge(channels, 3, res);
+
+	Mat im1_norm, im2_norm, res_norm;
 
 	normalize(im1, im1_norm, 0, 255, CV_MINMAX, CV_8U);
 	normalize(im2, im2_norm, 0, 255, CV_MINMAX, CV_8U);
+	normalize(res, res_norm, 0, 255, CV_MINMAX, CV_8UC3);
+
+	cvtColor(res_norm, res_norm, cv::COLOR_Luv2RGB);
 
 	imshow("image1", im1_norm);
 	imshow("image2", im2_norm);
+	imshow("image4", res_norm);
 
     waitKey(0);
     return 0;
