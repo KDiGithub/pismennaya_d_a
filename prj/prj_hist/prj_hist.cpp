@@ -14,8 +14,6 @@ using namespace cv;
 
 String save_image_path;
 int percent = 5;
-const int percent_slider_max = 90;
-int track_percent;
 Mat img, img2;
 
 vector<uint32_t> calc_hist(Mat& img2)
@@ -168,8 +166,8 @@ int main(int argc, char *argv[]) {
 	namedWindow("Contrasted image", 1);
 	/// Create Trackbars
 	char TrackbarName[50];
-	sprintf(TrackbarName, "Percent", percent_slider_max);
-	createTrackbar(TrackbarName, "Contrasted image", &percent, percent_slider_max, on_trackbar);
+	sprintf(TrackbarName, "Percent", 90);
+	createTrackbar(TrackbarName, "Contrasted image", &percent, 90, on_trackbar);
 
 	/// Show some stuff
 	on_trackbar(percent, 0);
