@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.4)
+project(prj_fil)
+
+find_package( OpenCV REQUIRED )
+add_executable( prj_fil prj_fil.cpp )
+target_link_libraries( prj_fil ${OpenCV_LIBS} )
