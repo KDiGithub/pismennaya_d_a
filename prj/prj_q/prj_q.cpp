@@ -9,7 +9,7 @@
 using namespace cv;
 using namespace std;
 
-
+//ПОСМОТРИ ПЕРЕХОДЫ (серый-черный 0.5)
 int main(int argc,char* argv[])
 {
 	Mat Image = Mat(300, 400, CV_8U);
@@ -52,33 +52,27 @@ int main(int argc,char* argv[])
 	filter2D(Image, im2, CV_32F, kernel2);
 
 	Mat grad = Mat(300, 400, CV_32F);
-	Mat grad_norm;
 	for(int i = 0; i < Image.rows; i++)
 	{
 		for (int j = 0; j < Image.cols; j++)
 		{
 			grad.at<float>(i,j) = sqrt(im1.at<float>(i, j) * im1.at<float>(i, j) + im2.at<float>(i, j) * im2.at<float>(i, j));
-			saturate_cast<float>(grad.at<float>(i, j));
+			//saturate_cast<float>(grad.at<float>(i, j));
 		}
 	}
 
 	Mat res = Mat(300, 400, CV_8UC3);
-	Mat res_norm;
 	cvtColor(res, res, CV_BGR2Lab);
 	Mat channels[3] = { grad, im1, im2 };
 	merge(channels, 3, res);
 	
 	normalize(im1, im1_norm, 0, 255, CV_MINMAX, CV_8U);
 	normalize(im2, im2_norm, 0, 255, CV_MINMAX, CV_8U);
-	normalize(res, res_norm, 0, 255, CV_MINMAX, CV_8U);
 
 	imshow("image1_norm", im1_norm);
 	imshow("image2_norm", im2_norm);
 	imshow("image_res", res);
-	imshow("image_res_norm", res_norm);
 
     waitKey(0);
     return 0;
 }
-
-
