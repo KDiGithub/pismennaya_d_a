@@ -83,7 +83,7 @@ void transl()
 		maybeletters.resize(boxes + 1);
 		vector<KeyPoint> key;
 
-		//ищем край
+		//ГЁГ№ГҐГ¬ ГЄГ°Г Г©
 		double minx = 100000, miny = 100000, betx = 100000, bety = 100000;
 		//int k = 0, l = 0, ki = 0, li = 0;
 		for (int i = 0; i < keypoints.size(); i++)
@@ -118,7 +118,7 @@ void transl()
 			}
 		}
 
-		//ищем прямоугольник
+		//ГЁГ№ГҐГ¬ ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄ
 		int ne = 0;
 		double krx = 0, kry = 0;
 		for (int i = 0; i < keypoints.size(); i++)
@@ -135,7 +135,7 @@ void transl()
 			}
 		}
 		
-		//запись в класс 1 или 0
+		//Г§Г ГЇГЁГ±Гј Гў ГЄГ«Г Г±Г± 1 ГЁГ«ГЁ 0
 		int indx = 1, indy = 2;
 		sort(key.begin(), key.end(), response_comparator);
 		for (int m = 0; m < key.size(); m++)
@@ -209,7 +209,7 @@ void on_trackbar(int, void*)
 {
 	find();
 	// Show blobs
-	imshow("image2", srcnew2);
+	//imshow("image2", srcnew2);
 	//imshow("image1", src_gray);
 	if (perevod == 1) transl();
 	imshow("image", srcnew);
