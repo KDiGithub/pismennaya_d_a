@@ -246,29 +246,12 @@ int main(int argc, char *argv[]) {
 	letters[26].lettnew(0, 1, 0, 1, 1, 1); 
 	letters[27].lettnew(0, 0, 0, 0, 0, 0);
 
-	cv::String keys =
-		"{pere |0| perevod n/y }"
-		"{help || show help message}";
-
-	CommandLineParser parser(argc, argv, keys);
-
-	if (parser.has("help")) {
-		parser.printMessage();
-		return 0;
-	}
-
 	cout << "Filename: ";
 again:
 	string input_image_path="../../../images/braille/";
 	string imim = "";
 	cin >> imim;
 	input_image_path += imim;
-
-	if (!parser.check())
-	{
-		parser.printErrors();
-		return 0;
-	}
 
 	src = imread(input_image_path);
 	if (!src.data)
